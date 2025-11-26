@@ -28,20 +28,25 @@ Please consider ⭐️ starring Husarion’s resources and this repo if it helps
 Repository layout (suggested)
 
 ├── launch/
-│   ├── navigation.launch.py              # Nav2 bringup wrapper (slam:=false by default)
-│   ├── slam.launch.sh                    # convenience launcher
-│   └── bringup_all.md                    # runbook / cheat-sheet
-├── config/
-│   ├── nav2_params.yaml                  # Nav2 parameters (working baseline)
-│   └── rviz_nav2.rviz                     # RViz config with Navigation2 panel enabled
-├── scripts/
-│   ├── host_xhost.sh                      # xhost +local:docker
-│   ├── enter_container.sh                 # docker exec -it ...
-│   ├── static_tf_basefootprint.sh         # base_link -> base_footprint
-│   ├── cmd_vel_relay.sh                   # /cmd_vel_nav -> /cmd_vel
-│   └── diagnostics.sh                     # ros2 node/topic/tf checks
-└── README.md
 
+ navigation.launch.py              # Nav2 bringup wrapper (slam:=false by default)
+ slam.launch.sh                    # convenience launcher
+ bringup_all.md                    # runbook / cheat-sheet
+
+├── config/
+
+ nav2_params.yaml                  # Nav2 parameters (working baseline)
+ rviz_nav2.rviz            # RViz config with Navigation2 panel enabled
+
+├── scripts/
+
+ host_xhost.sh                      # xhost +local:docker
+ enter_container.sh                 # docker exec -it ...
+static_tf_basefootprint.sh         # base_link -> base_footprint
+ cmd_vel_relay.sh                   # /cmd_vel_nav -> /cmd_vel
+ diagnostics.sh                     # ros2 node/topic/tf checks
+
+├── README/
 
 
 Your actual folders may differ. README focuses on commands and concepts you can match to your structure.
