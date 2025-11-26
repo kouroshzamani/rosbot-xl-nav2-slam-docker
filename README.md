@@ -26,7 +26,7 @@ Tutorial 10: Exploration
 Please consider ⭐️ starring Husarion’s resources and this repo if it helps.
 
 Repository layout (suggested)
-.
+
 ├── launch/
 │   ├── navigation.launch.py              # Nav2 bringup wrapper (slam:=false by default)
 │   ├── slam.launch.sh                    # convenience launcher
@@ -41,6 +41,7 @@ Repository layout (suggested)
 │   ├── cmd_vel_relay.sh                   # /cmd_vel_nav -> /cmd_vel
 │   └── diagnostics.sh                     # ros2 node/topic/tf checks
 └── README.md
+
 
 
 Your actual folders may differ. README focuses on commands and concepts you can match to your structure.
