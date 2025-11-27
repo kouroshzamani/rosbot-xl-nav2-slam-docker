@@ -1,64 +1,59 @@
 # rosbot-xl-nav2-slam-docker
-End-to-end SLAM + Navigation2 pipeline for ROSbot XL simulation running fully inside Docker (tested on Ubuntu 24.04 host), based on Husarion’s tutorials and extended with fixes for reproducible navigation.
 
-What you get
+End-to-end **SLAM + Navigation2** pipeline for **ROSbot XL Gazebo simulation** running fully inside **Docker**
+(tested on **Ubuntu 24.04** host). Based on Husarion tutorials, with extra fixes to make navigation **reproducible**.
 
-✅ Gazebo simulation (ROSbot XL)
+---
 
-✅ RViz2 visualization (TF, LaserScan, Map, Costmaps)
+## What you get
 
-✅ slam_toolbox online async SLAM (live mapping)
+- ✅ Gazebo simulation (ROSbot XL)
+- ✅ RViz2 visualization (TF, LaserScan, Map, Costmaps)
+- ✅ `slam_toolbox` online async SLAM (live mapping)
+- ✅ Nav2 bringup (planner/controller/bt_navigator + costmaps)
+- ✅ Navigation goals from RViz or CLI (`/navigate_to_pose`)
+- ✅ Known issues fixed:
+  - `frame does not exist` (missing `base_footprint`)
+  - duplicate SLAM / double `map->odom`
+  - `cmd_vel` mismatch (`/cmd_vel_nav` vs `/cmd_vel`)
+  - RViz Nav2 panel missing / wrong goal tool selected
 
-✅ Nav2 bringup (planner/controller/bt_navigator + costmaps)
+---
 
-✅ Navigation goals from RViz or CLI (/navigate_to_pose)
+## Credits / References
 
-✅ Known issues fixed: frame does not exist, duplicate SLAM, cmd_vel mismatch, RViz Nav panel missing
+- Husarion ROS 2 Tutorials (Navigation & Exploration)
+  - Tutorial 9: Navigation
+  - Tutorial 10: Exploration
 
-Credits / References
+If this repo helps, consider ⭐️ starring Husarion resources and this repository.
 
-Husarion ROS 2 Tutorials (Navigation & Exploration)
+---
 
-Tutorial 9: Navigation
+## Repository layout (suggested)
 
-Tutorial 10: Exploration
+> Your actual folders may differ. This README focuses on commands and concepts you can map to your structure.
 
-Please consider ⭐️ starring Husarion’s resources and this repo if it helps.
-
-Repository layout (suggested)
-
+```txt
+.
 ├── launch/
-
- navigation.launch.py              # Nav2 bringup wrapper (slam:=false by default)
- 
- slam.launch.sh                    # convenience launcher
- 
- bringup_all.md                    # runbook / cheat-sheet
-
+│   └── navigation.launch.py          # Nav2 bringup wrapper (slam:=false by default)
 ├── config/
-
- nav2_params.yaml                  # Nav2 parameters (working baseline)
- 
- rviz_nav2.rviz            # RViz config with Navigation2 panel enabled
-
+│   ├── nav2_params.yaml              # Nav2 parameters (working baseline)
+│   └── rviz_nav2.rviz                # RViz config with Navigation2 panel enabled
 ├── scripts/
-
- host_xhost.sh                      # xhost +local:docker
- 
- enter_container.sh                 # docker exec -it ...
- 
-static_tf_basefootprint.sh         # base_link -> base_footprint
-
- cmd_vel_relay.sh                   # /cmd_vel_nav -> /cmd_vel
- 
- diagnostics.sh                     # ros2 node/topic/tf checks
-
-├── README/
+│   ├── host_xhost.sh                 # xhost +local:docker
+│   ├── enter_container.sh            # docker exec -it ...
+│   ├── static_tf_basefootprint.sh    # base_link -> base_footprint
+│   ├── cmd_vel_relay.sh              # /cmd_vel_nav -> /cmd_vel
+│   └── diagnostics.sh                # ros2 node/topic/tf checks
+└── README.md
 
 
 Your actual folders may differ. README focuses on commands and concepts you can match to your structure.
 
-Requirements
+## Requirements
+
 Host machine
 
 Ubuntu 24.04 (tested), Docker Engine + docker compose
@@ -71,7 +66,7 @@ husarion/rosbot-xl-gazebo:humble (or your derived image)
 
 ROS 2 Humble already included
 
-Quick start (TL;DR)
+## Quick start (TL;DR)
 0) Allow Docker to use your display (host)
 
 Gazebo GUI requires X11 access:
@@ -91,7 +86,7 @@ Inside the container, always source:
 source /opt/ros/humble/setup.bash
 source /ros2_ws/install/setup.bash
 
-Full runbook (recommended: 5 terminals)
+## Full runbook (recommended: 5 terminals)
 
 Keeping each subsystem in its own terminal makes debugging easy and prevents accidental double launches.
 
@@ -178,14 +173,14 @@ ros2 topic info /cmd_vel_nav -v
 ros2 topic info /cmd_vel -v
 ros2 node info /rosbot_xl_base_controller
 
-RViz2 setup (container)
+## RViz2 setup (container)
 docker exec -it demo-rosbot_xl-1 bash
 source /opt/ros/humble/setup.bash
 source /ros2_ws/install/setup.bash
 
 rviz2
 
-RViz checklist
+## RViz checklist
 
 Fixed Frame: map
 
@@ -211,7 +206,7 @@ In the top toolbar select Nav2 Goal (not “2D Goal Pose”)
 
 ✅ After enabling the Navigation2 panel, “Nav2 Goal” works as expected.
 
-Sending goals (CLI)
+## Sending goals (CLI)
 
 This is the most reliable test because it bypasses RViz UI confusion:
 
@@ -225,7 +220,7 @@ Expected:
 
 status: SUCCEEDED
 
-Common issues & fixes
+## Common issues & fixes
 1) frame does not exist in RViz / SLAM / Nav2
 
 Cause: something expects base_footprint but TF only provides base_link.
@@ -256,7 +251,7 @@ Fix on host:
 
 xhost +local:docker
 
-Diagnostics (quick commands)
+## Diagnostics (quick commands)
 TF graph
 ros2 run tf2_tools view_frames
 
@@ -272,12 +267,12 @@ Check actions
 ros2 action list | grep navigate
 ros2 action info /navigate_to_pose
 
-Notes about goal arrow direction (RViz)
+## Notes about goal arrow direction (RViz)
 
 When setting a goal in RViz, the arrow indicates the desired final orientation.
 So it’s normal that the robot may rotate near the end to match the arrow direction.
 
-Next steps / roadmap
+## Next steps / roadmap
 
 Frontier-based exploration (autonomous mapping)
 
