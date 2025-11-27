@@ -52,6 +52,7 @@ If this repo helps, consider ⭐️ starring Husarion resources and this reposit
 
 Your actual folders may differ. README focuses on commands and concepts you can match to your structure.
 
+```
 ## Requirements
 
 Host machine
